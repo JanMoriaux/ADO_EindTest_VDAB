@@ -1,0 +1,81 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:AdoTestLIbrary="clr-namespace:AdoTestLIbrary;assembly=AdoTestLIbrary" mc:Ignorable="d" x:Class="AdoTest.Videotheek"
+        Title="Videotheek" SizeToContent="WidthAndHeight" Loaded="Window_Loaded" 
+        xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib">
+    <Window.Resources>
+        <CollectionViewSource x:Key="filmViewSource" d:DesignSource="{d:DesignInstance {x:Type AdoTestLIbrary:Film}, CreateList=True}"/>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Right">
+            <Button x:Name="buttonToevoegen" Content="Toevoegen"
+				Height="Auto" Width="120" HorizontalAlignment="Right" Margin="15 10 15 5" Click="buttonToevoegen_Click"/>
+            <Button x:Name="buttonVerwijderen" Content="Verwijderen"
+				Height="Auto" Width="120" HorizontalAlignment="Right" Margin="15 0 15 5" Click="buttonVerwijderen_Click"/>
+            <Button x:Name="buttonOpslaan" Content="Wijzigingen opslaan" Margin="15 20 15 5"
+				Height="Auto" Width="120" HorizontalAlignment="Right" Click="buttonOpslaan_Click"/>
+        </StackPanel>
+        <StackPanel Height="250" DockPanel.Dock="Bottom">
+
+            <Grid DataContext="{StaticResource filmViewSource}" x:Name="grid1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Bandnr:" Grid.Column="0" HorizontalAlignment="Left" 
+					Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                <Label x:Name="bandNrLabel" Content="{Binding BandNr, UpdateSourceTrigger=Default}" Grid.Column="1" 
+					HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                <Label Content="Titel:" Grid.Column="0" HorizontalAlignment="Left" 
+					Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                <TextBox x:Name="titelTextBox" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding Titel}" 
+					Height="23" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="200" />
+                <Label Content="Genre:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                <ComboBox x:Name="genreComboBox" Grid.Column="1"
+					HorizontalAlignment="Left" Height="Auto" 
+					Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="200">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+                <Label Content="In Voorraad:" Grid.Column="0" 
+					HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+                <TextBox x:Name="inVoorraadTextBox" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding InVoorraad}"
+					Height="23" Margin="3" Grid.Row="3" VerticalAlignment="Center" Width="50"/>
+                <Label Content="Uitgeleend:" Grid.Column="0" HorizontalAlignment="Left" 
+					Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+                <TextBox x:Name="uitgeleendTextBox" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding Uitgeleend}"
+					Height="23" Margin="3" Grid.Row="4" VerticalAlignment="Center" Width="50"/>
+                <Label Content="Prijs:" Grid.Column="0" HorizontalAlignment="Left" 
+					Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+                <TextBox x:Name="prijsTextBox" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding Path=Prijs, StringFormat=C}"
+					Height="23" Margin="3" Grid.Row="5" VerticalAlignment="Center" Width="50" 
+                         />
+                <Label Content="Totaal Verhuurd:" Grid.Column="0" HorizontalAlignment="Left" 
+					Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+                <TextBox x:Name="totaalVerhuurdTextBox" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding TotaalVerhuurd}"
+					Height="23" Margin="3" Grid.Row="6" VerticalAlignment="Center" Width="50"/>
+            </Grid>
+
+        </StackPanel>
+        <StackPanel DataContext="{StaticResource filmViewSource}"  DockPanel.Dock="Left">
+            <Label Content="Videotheek - Films" FontSize="25" FontWeight="Bold" 
+				DockPanel.Dock="Left"/>
+            <ListBox x:Name="listBoxFilms" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                     ItemsSource="{Binding}" DisplayMemberPath="Titel" SelectedValue="BandNr"
+                     Height="200" SelectionChanged="listBoxFilms_SelectionChanged"/>
+        </StackPanel>
+    </DockPanel>
+</Window>
